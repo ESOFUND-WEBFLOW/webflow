@@ -1,0 +1,290 @@
+<html>
+<head>
+<script type="text/javascript" src=https://www.gstatic.com/charts/loader.js></script>
+ 
+<script type="text/javascript">
+google.charts.load('current',{'packages':['corechart']});
+google.charts.load('current',{'packages':['table']});
+google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawTable);
+ 
+var numOps=1000;
+var strike=1;
+var fmv=5;
+var fedRateAMT=.28;
+var stateRateAMT=0;
+var fedRateInc=.12;
+var stateRateInc=0;
+var income=50000;
+var spread=(numOps*(fmv-strike));
+var totalIncome=income+spread;
+var married=false;
+var state="N/a";
+var exemption=73600;
+var totalAMT=(spreadISO+income-exemption)*(fedRateAMT+stateRateAMT);
+var stanDeduct=12550;
+var taxIncome=income-stanDeduct;
+var fedTax=0;
+var amt=0;
+var chart;
+var taxTable;
+var options={'width':"100%",'height':400,'legend':'none','vAxis':{minValue:0,format:'currency'}};
+ 
+function drawChart() {   
+  numOps1=document.getElementsByName("numOps1")[0].valueAsNumber;
+  strike1=document.getElementsByName("strike1")[0].valueAsNumber;
+  numOps2=document.getElementsByName("numOps2")[0].valueAsNumber;
+  strike2=document.getElementsByName("strike2")[0].valueAsNumber;
+  numOps3=document.getElementsByName("numOps3")[0].valueAsNumber;
+  strike3=document.getElementsByName("strike3")[0].valueAsNumber;
+  fmv=document.getElementsByName("fmv")[0].valueAsNumber;
+  income=document.getElementsByName("income")[0].valueAsNumber;
+  state= document.getElementsByName("state")[0].value;
+  var checkBox=document.getElementById("married");
+  spreadISO=numOps1*(fmv-strike1)+numOps2*(fmv-strike2)+numOps3*(fmv-strike3);
+  spread=spreadISO
+  totalIncome=income+spread;
+  socSec=.062;
+  medicare=.0145;
+  stanDeduct=12550;
+  taxIncome=income-stanDeduct;
+ 
+   if(checkBox.checked == true) {
+              exemption=114600;
+              stanDeduct=25100;
+              if(taxIncome>628300) {fedTax=168993.5+.37*(taxIncome-628300);}
+              else if(taxIncome>418850) {fedTax=95686+.35*(taxIncome-418850);}
+              else if(taxIncome>329850) {fedTax=67206+.32*(taxIncome-329850);}
+              else if(taxIncome>172751) {fedTax=29502+.24*(taxIncome-172751);}
+              else if(taxIncome>81051) {fedTax=9328+.22*(taxIncome-81051);}
+              else if(taxIncome>19900) {fedTax=1990+.12*(taxIncome-19900);}
+              else {fedTax=.1*taxIncome;}
+  } else {
+              exemption=73600;
+              standdeduct=12550;
+              if(taxIncome>523600) {fedTax=157804.25+.37*(taxIncome-523600);}
+              else if(taxIncome>209425) {fedTax=47843+.35*(taxIncome-209425);}
+              else if(taxIncome>164925) {fedTax=33603+.32*(taxIncome-164925);}
+              else if(taxIncome>86375) {fedTax=14751+.24*(taxIncome-86375);}
+              else if(taxIncome>40525) {fedTax=4664+.22*(taxIncome-40525);}
+              else if(taxIncome>9950) {fedTax=995+.12*(taxIncome-9950);}
+              else {fedTax=.1*taxIncome;}
+  }
+ 
+  if(totalIncome-exemption<199900){
+    fedRateAMT=.26;
+  } else {
+    fedRateAMT=.28;
+  }
+ 
+if(state==="CA"||state==="IA"){
+stateRateAMT=.07;
+}else if(state==="CO"){
+stateRateAMT=.0347;
+}else if(state==="MN"){
+stateRateAMT=.058;
+}else if(state==="NY"){
+stateRateAMT=.06;
+}else{
+stateRateAMT=0;
+}
+ 
+  if(totalIncome>exemption){totalAMT=(totalIncome-exemption)*(fedRateAMT+stateRateAMT);}else{totalAMT=0;}
+ 
+  if(totalAMT>fedTax) {
+              amt=totalAMT-fedTax;
+  } else {
+              amt=0;
+  }
+ 
+if(spread>0) {
+  data = google.visualization.arrayToDataTable([
+  ['Cost', '$',{ role:'style' }],
+  ['Exercise Cost', numOps1*strike1 + numOps2*strike2 + numOps3*strike3,"#075095"],
+  ['AMT', amt, "#ff5757"]
+]);
+ 
+regTaxRates = google.visualization.arrayToDataTable([
+  ['Regular Income Tax Breakdown', ''],
+  ['Income', income],
+  ['Standard Deduction', stanDeduct],
+  ['Taxable Income', income-stanDeduct],
+  ['Regular Federal Income Tax', fedTax]
+  ]);
+ 
+amtTaxRates = google.visualization.arrayToDataTable([
+  ['AMT Breakdown', ''],
+  ['Income', income],
+  ['Total ISO Spread', spreadISO],
+  ['AMTI (AMT Income)', totalIncome],
+  ['AMT Exemption', exemption],
+  ['AMTI - Exemption (Min $0)', totalIncome-exemption],
+  ['Alternative Minimum Tax (Rate: '+Math.round((fedRateAMT+stateRateAMT)*100)+'%)', totalAMT],
+  ['AMT Owed*', amt]
+  ]);
+ 
+var formatter = new google.visualization.NumberFormat({prefix:'$', negativeColor:'red', negativeParens: true});
+var chart = new google.visualization.ColumnChart(document.getElementById('amtgraph'));
+formatter.format(data, 1);
+chart.draw(data, options);
+var table = new google.visualization.Table(document.getElementById('reg_table_div'));
+formatter.format(regTaxRates, 1);
+table.draw(regTaxRates,{showRowNumber:false,alternatingRowStyle:false,width:'50%',height: '100%'});
+var table = new google.visualization.Table(document.getElementById('amt_table_div'));
+formatter.format(amtTaxRates, 1);
+table.draw(amtTaxRates,{showRowNumber:false,alternatingRowStyle:false,width:'50%',height: '100%'});
+}
+}
+ 
+</script>
+ 
+<style>
+@font-face{
+  font-family: 'Proxima Nova';
+  src: url('ProximaNova.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+                font-family: 'Proxima Nova';
+}
+table {
+                border: none;
+}
+th, td {
+                padding: 10px;
+                text-align: left;
+}
+input{
+  width: 80%;
+  padding: 6px 10px;
+  margin: 4px 0;
+  border: none;
+  border-bottom: 2px solid #075095;
+}
+select{
+   width: 90%;
+   border:none;
+   border-bottom: 2px solid #075095;
+   size: 5;
+   font-family: inherit;
+   font-size: inherit;
+   padding: 0;
+   flex: 1;
+}
+ 
+</style>
+ 
+</head>
+<body>
+<div style="text-align:center;">
+               
+                <div style="display:inline-block; text-align:left;">
+    <h3>AMT Tax Inputs</h3>
+                                <form method="post" action=# id="formvalue" onkeyup="drawChart()">
+              
+        <table id="optionsTable" border="none">
+        <TR><TH colspan="3">Option Info</TH></TR>
+        <TR>
+               <TD>Grant</TD>
+               <TD>Number of Options</TD>
+               <TD>Strike Price</TD>
+        </TR>
+        <TR>
+                                                <TD>ISO Grant 1</TD>
+                                                <TD><input type="number" id="numOps1" name="numOps1" value="0"></TD>
+                                                <TD>$<input type="number" id="strike1" name="strike1" value="0"></TD>
+        </TR>
+        <TR>
+                                                <TD>ISO Grant 2</TD>
+                                                <TD><input type="number" id="numOps2" name="numOps2"    value="0"></TD>
+                                                <TD>$<input type="number" id="strike2" name="strike2" value="0"></TD>
+               </TR>
+        <TR>
+                                                <TD>ISO Grant 3</TD>
+                                                <TD><input type="number" id="numOps3" name="numOps3" value="0"></TD>
+                                                <TD>$<input type="number" id="strike3" name="strike3" value="0"></TD>
+                                </TR>
+        <TR>
+        <TD colspan="2">Fair Market Value (409a)</TD>
+        <TD>$<input type="number" id="fmv" name="fmv" value="0"></TD>
+        </TR>
+        <TR><TH colspan="3">Additional Tax Info</TH></TR>
+        <TR>
+        <TD colspan="2">2020 Income</TD>
+        <TD>$<input type="number" id="income" name="income" value="50000"></TD>
+        </TR>
+        <TR>
+        <TD colspan="2">State</TD>
+        <TD>
+               <select name="state" id="state" onclick="drawChart()" text-align="center">
+<option value="N/A">-- Select Tax State --</option>
+<option value="AL">Alabama</option>
+<option value="AK">Alaska</option>
+<option value="AZ">Arizona</option>
+<option value="AR">Arkansas</option>
+<option value="CA">California</option>
+<option value="CO">Colorado</option>
+<option value="CT">Connecticut</option>
+<option value="DE">Delaware</option>
+<option value="FL">Florida</option>
+<option value="GA">Georgia</option>
+<option value="HI">Hawaii</option>
+<option value="ID">Idaho</option>
+<option value="IL">Illinois</option>
+<option value="IN">Indian</option>
+<option value="IA">Iowa</option>
+<option value="KS">Kansas</option>
+<option value="KY">Kentucky</option>
+<option value="LA">Louisiana</option>
+<option value="ME">Maine</option>
+<option value="MD">Maryland</option>
+<option value="MA">Massachusetts</option>
+<option value="MI">Michigan</option>
+<option value="MN">Minnesota</option>
+<option value="MS">Mississippi</option>
+<option value="MO">Missouri</option>
+<option value="MT">Montana</option>
+<option value="NE">Nebraska</option>
+<option value="NV">Nevada</option>
+<option value="NH">New Hampshire</option>
+<option value="NJ">New Jersey</option>
+<option value="NM">New Mexicao</option>
+<option value="NY">New York</option>
+<option value="NC">North Carolina</option>
+<option value="ND">North Dakota</option>
+<option value="OH">Ohio</option>
+<option value="OK">Oklahoma</option>
+<option value="OR">Oregon</option>
+<option value="PA">Pennsylvania</option>
+<option value="RI">Rhode Island</option>
+<option value="SC">South Carolina</option>
+<option value="SD">South Dakota</option>
+<option value="TN">Tennessee</option>
+<option value="TX">Texas</option>
+<option value="UT">Utah</option>
+<option value="VT">Vermont</option>
+<option value="VA">Virginia</option>
+<option value="WA">Washington</option>
+<option value="WV">West Virginia</option>
+<option value="WI">Wisconsin</option>
+<option value="WY">Wyoming</option>
+</select>
+</TD>
+</TR>
+<TR>
+<TD colspan="2">Married?</TD>
+<TD><input type="checkbox" id="married" onclick="drawChart()"></TD>
+</TR>
+</table>
+</form>
+</div>
+<h3>Exercise Cost Breakdown</h3>
+<div id="amtgraph" style="width:100%"></div>
+<p style="font-size:10px;">*This is an estimate of the AMT based on the inputted parameters, it is not a fully comprehensive assessment. The ESO Fund does not provide legal, financial, or tax advice.</p>
+<div id="reg_table_div" style="width:100%"></div>
+<div id="amt_table_div" style="width:100%"></div>
+</div>
+</body>
+
+</html>
