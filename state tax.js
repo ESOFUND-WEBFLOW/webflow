@@ -112,8 +112,6 @@ google.charts.load('current', {
           stateRateAMT = 0.0347;
         } else if (state === "MN") {
           stateRateAMT = 0.058;
-        } else if (state === "NY") {
-          stateRateAMT = 0.06;
         } else {
           stateRateAMT = 0;
         }
