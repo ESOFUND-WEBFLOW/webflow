@@ -63,9 +63,8 @@ google.charts.load('current', {
         taxIncome = income - stanDeduct;
  
         if (checkBox.checked == true) {
+          exemption = 113400;
           stanDeduct = 24800;
-          taxIncome = income - stanDeduct;
-          if (tax Inome > 523600) {exemption = 0;} else {exemption = 73600;}
           if (taxIncome > 622050) {
             fedTax = 167307.5 + 0.37 * (taxIncome - 622050);
           } else if (taxIncome > 414700) {
@@ -82,8 +81,8 @@ google.charts.load('current', {
             fedTax = 0.1 * taxIncome;
           }
         } else {
+          exemption = 72900;
           standdeduct = 12400;
-          if (tax Inome > 1047200) {exemption = 0;} else {exemption = 114600;}
           if (taxIncome > 518400) {
             fedTax = 156235 + 0.37 * (taxIncome - 518400);
           } else if (taxIncome > 207350) {
@@ -1082,8 +1081,8 @@ google.charts.load('current', {
           totalAMT = 0;
         }
  
-        if (totalAMT > (fedTax)) {
-          amt = totalAMT - (fedTax);
+        if (totalAMT > (fedTax + stateTax)) {
+          amt = totalAMT - (fedTax + stateTax);
         } else {
           amt = 0;
         }
