@@ -19,10 +19,10 @@ google.charts.load('current', {
       var totalIncome = income + spread;
       var married = false;
       var state = "N/a";
-      var exemption = 72900;
+      var exemption = 75900;
       var spreadISO = 0;
       var totalAMT = (spreadISO + income - exemption) * (fedRateAMT + stateRateAMT);
-      var stanDeduct = 12400;
+      var stanDeduct = 12950;
       var taxIncome = income - stanDeduct;
       var fedTax = 0;
       var amt = 0;
@@ -54,42 +54,42 @@ google.charts.load('current', {
         totalIncome = income + spread;
         socSec = 0.062;
         medicare = 0.0145;
-        stanDeduct = 12400;
+        stanDeduct = 12950;
         taxIncome = income - stanDeduct;
  
         if (checkBox.checked == true) {
-          exemption = 113400;
-          stanDeduct = 24800;
-          if (taxIncome > 622050) {
-            fedTax = 167307.5 + 0.37 * (taxIncome - 622050);
-          } else if (taxIncome > 414700) {
-            fedTax = 94735 + 0.35 * (taxIncome - 414700);
-          } else if (taxIncome > 326600) {
-            fedTax = 66543 + 0.32 * (taxIncome - 326600);
-          } else if (taxIncome > 171050) {
-            fedTax = 29211 + 0.24 * (taxIncome - 171050);
-          } else if (taxIncome > 80250) {
-            fedTax = 9235 + 0.22 * (taxIncome - 80250);
-          } else if (taxIncome > 19750) {
-            fedTax = 1975 + 0.12 * (taxIncome - 19750);
+          exemption = 118100;
+          stanDeduct = 25900;
+          if (taxIncome > 647850) {
+            fedTax = 174253.5 + 0.37 * (taxIncome - 647850);
+          } else if (taxIncome > 431900) {
+            fedTax = 98671 + 0.35 * (taxIncome - 431900);
+          } else if (taxIncome > 340100) {
+            fedTax = 69295 + 0.32 * (taxIncome - 340100);
+          } else if (taxIncome > 178150) {
+            fedTax = 30427 + 0.24 * (taxIncome - 178150);
+          } else if (taxIncome > 83550) {
+            fedTax = 9615 + 0.22 * (taxIncome - 83550);
+          } else if (taxIncome > 20550) {
+            fedTax = 2055 + 0.12 * (taxIncome - 20550);
           } else {
             fedTax = 0.1 * taxIncome;
           }
         } else {
-          exemption = 72900;
-          standdeduct = 12400;
-          if (taxIncome > 518400) {
-            fedTax = 156235 + 0.37 * (taxIncome - 518400);
-          } else if (taxIncome > 207350) {
-            fedTax = 47367.5 + 0.35 * (taxIncome - 207350);
-          } else if (taxIncome > 163300) {
-            fedTax = 33271.5 + 0.32 * (taxIncome - 163300);
-          } else if (taxIncome > 85525) {
-            fedTax = 14605.5 + 0.24 * (taxIncome - 85525);
-          } else if (taxIncome > 40125) {
-            fedTax = 4617.5 + 0.22 * (taxIncome - 40125);
-          } else if (taxIncome > 9876) {
-            fedTax = 987.5 + 0.12 * (taxIncome - 9875);
+          exemption = 75900;
+          standdeduct = 12950;
+          if (taxIncome > 539900) {
+            fedTax = 162718 + 0.37 * (taxIncome - 539900);
+          } else if (taxIncome > 215951) {
+            fedTax = 49335.5 + 0.35 * (taxIncome - 215951);
+          } else if (taxIncome > 170050) {
+            fedTax = 34647.5 + 0.32 * (taxIncome - 170050);
+          } else if (taxIncome > 89076) {
+            fedTax = 15213.5 + 0.24 * (taxIncome - 89076);
+          } else if (taxIncome > 41776) {
+            fedTax = 4807.5 + 0.22 * (taxIncome - 41776);
+          } else if (taxIncome > 10276) {
+            fedTax = 1027.5 + 0.12 * (taxIncome - 10276);
           } else {
             fedTax = 0.1 * taxIncome;
           }
