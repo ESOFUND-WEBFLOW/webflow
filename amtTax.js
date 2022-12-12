@@ -23,7 +23,7 @@ google.charts.load('current', {
       var spreadISO = 0;
       var totalAMT = (spreadISO + income - exemption) * (fedRateAMT + stateRateAMT);
       var stanDeduct = 12950;
-      var taxIncome = income - stanDeduct;
+      var taxIncome = income;
       var fedTax = 0;
       var amt = 0;
       var chart;
