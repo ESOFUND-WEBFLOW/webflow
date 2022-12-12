@@ -60,6 +60,8 @@ google.charts.load('current', {
         if (checkBox.checked == true) {
           exemption = 118100;
           stanDeduct = 25900;
+          if (income > standDedcuct) { taxIncome = income - stanDeduct;} else {taxIncome = income;}
+         
           if (taxIncome > 647850) {
             fedTax = 174253.5 + 0.37 * (taxIncome - 647850);
           } else if (taxIncome > 431900) {
@@ -78,6 +80,8 @@ google.charts.load('current', {
         } else {
           exemption = 75900;
           standdeduct = 12950;
+          if (income > standDedcuct) { taxIncome = income - stanDeduct;} else {taxIncome = income;}
+   
           if (taxIncome > 539900) {
             fedTax = 162718 + 0.37 * (taxIncome - 539900);
           } else if (taxIncome > 215951) {
