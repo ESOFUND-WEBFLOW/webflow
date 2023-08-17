@@ -54,6 +54,14 @@
         <form method="post" action=# id="formvalue" onkeyup="drawChart()">
  
           <table id="optionsTable" border="none">
+              <TR>
+                   <TD colspan="2">Tax Year</TD>
+                  <TD>
+                      <select name="taxYear" id="taxYear" onclick="drawChart()" text-align="center">
+                  <option value=2022>2022</option>
+                  <option value=2023>2023</option>
+                  </TD>
+              </TR>
             <TR>
               <TH colspan="3">Option Info</TH>
             </TR>
@@ -85,7 +93,7 @@
               <TH colspan="3">Additional Tax Info</TH>
             </TR>
             <TR>
-              <TD colspan="2">2020 Income</TD>
+              <TD colspan="2">Income</TD>
               <TD>$<input type="number" id="income" name="income" value="50000"></TD>
             </TR>
             <TR>
