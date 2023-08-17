@@ -93,13 +93,26 @@ var options = {
 var taxData
 var stateTaxData
 
+var yearInput
+
+function refreshData(year) {
+  fetchData(`https://api.esofund.io/tax/${year}`, false);
+  fetchData(`https://api.esofund.io/tax/state/${year}`, true);
+}
+
 if (document.readyState !== 'loading') {
-  fetchData('https://api.esofund.io/tax/2022', false);
-  fetchData('https://api.esofund.io/tax/state/2022', true);
+  if (yearInput) {
+    refreshData(yearInput.value);
+  }
 } else {
   document.addEventListener('DOMContentLoaded', function () {
-    fetchData('https://api.esofund.io/tax/2022', false);
-    fetchData('https://api.esofund.io/tax/state/2022', true);
+    var yearInput = document.getElementById("taxYear");
+    console.log(yearInput)
+    yearInput.addEventListener('change', function() {
+      // Retrieve the selected value
+      const selectedValue = yearInput.value;
+      refreshData(selectedValue);
+    })
   });
 }
 
