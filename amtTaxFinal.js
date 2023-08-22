@@ -106,8 +106,11 @@ if (document.readyState !== 'loading') {
   }
 } else {
   document.addEventListener('DOMContentLoaded', function () {
-    var yearInput = document.getElementById("taxYear");
+    yearInput = document.getElementById("taxYear");
     console.log(yearInput)
+    if (yearInput.value) {
+      refreshData(yearInput.value);
+    }
     yearInput.addEventListener('change', function() {
       // Retrieve the selected value
       const selectedValue = yearInput.value;
